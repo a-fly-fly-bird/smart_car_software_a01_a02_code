@@ -1,41 +1,25 @@
 #include <ros/ros.h>
 #include <nav_msgs/Odometry.h>
 #include <math.h>
-
-float total_distance = 0;
-float previous_x = 0;
-float previous_y = 0;
-bool first_run = true;
-
-void doMsg(const nav_msgs::Odometry::ConstPtr data)
+float distance = 0.0;
+void doMsg(const nav_msgs::Odometry::ConstPtr &msg)
 {
-    if (first_run)
+    float speed_x = 0;
+    speed_x = msg->twist.twist.linear.x;
+    if (fabs(speed_x) < 0.05)
     {
-        previous_x = data->pose.pose.position.x;
-        previous_y = data->pose.pose.position.y;
+        speed_x = 0;
     }
-    float x = data->pose.pose.position.x;
-    float y = data->pose.pose.position.y;
-    float d_increment = sqrt((x - previous_x) * (x - previous_x) + (y - previous_y) * (y - previous_y));
-    total_distance = total_distance + d_increment;
-    printf("Total distance traveled is %.2f m \r\n", total_distance);
-    // pub.publish(data);
-    previous_x = data->pose.pose.position.x;
-    previous_y = data->pose.pose.position.y;
-    first_run = false;
+    ROS_INFO("X_速度：%.3f ", speed_x);
+    distance += 0.1 * speed_x;
+    ROS_INFO("里程计的距离为：%.6f", distance);
 }
-
 int main(int argc, char *argv[])
 {
+    setlocale(LC_ALL, "");
     ros::init(argc, argv, "odom_sub");
-
-    ros::NodeHandle nh_;
-
-    ros::Subscriber sub_;
-
-    sub_ = nh_.subscribe<nav_msgs::Odometry>("/odom", 1, doMsg);
-
+    ros::NodeHandle nh;
+    ros::Subscriber sub = nh.subscribe("/odom", 1000, doMsg);
     ros::spin();
-
     return 0;
 }
