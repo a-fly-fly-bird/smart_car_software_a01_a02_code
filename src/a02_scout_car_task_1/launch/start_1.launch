@@ -1,0 +1,9 @@
+<launch>
+    <node pkg="rosbag" type="play" name="player" output="log" args="/home/ty/Desktop/genetic_recombination/bags/calibration_2022-10-26-17-24-42.bag"/>
+    <node name="node1" pkg="a02_scout_car_task_1" type="imu_subscriber" output="screen"/>
+    <node name="node2" pkg="a02_scout_car_task_1" type="image_viewer" output="screen">
+        <remap from ="/camera_sim/image_raw" to= "/camera/color/image_raw"/>
+    </node>
+    <node name="node3" pkg="a02_scout_car_task_1" type="depth_image_viewer" output="screen"/>
+    <node name="node4" pkg="a02_scout_car_task_1" type="pcl_viewer" output="screen"/>
+</launch>

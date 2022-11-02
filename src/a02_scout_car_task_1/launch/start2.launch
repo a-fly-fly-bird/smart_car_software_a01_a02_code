@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="rosbag" type="play" name="player1" output="log" args="/home/ty/Desktop/genetic_recombination/bags/calibration_2022-10-26-17-24-42.bag"/>
+    <node name="node10" pkg="a02_scout_car_task_1" type="distance_measurement" output="screen"/>
+</launch>
