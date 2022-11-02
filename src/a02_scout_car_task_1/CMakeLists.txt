@@ -191,4 +191,4 @@ add_executable(depth src/depth.cpp)
 target_link_libraries(depth ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
 add_executable(distance_measurement src/distance_measurement.cpp)
-target_link_libraries(distance_measurement ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(distance_measurement algorithm_set ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${Boost_LIBRARIES})
