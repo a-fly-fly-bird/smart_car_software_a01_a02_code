@@ -1,5 +1,12 @@
 {
     "python.autoComplete.extraPaths": [
         "/opt/ros/noetic/lib/python3/dist-packages"
-    ]
+    ],
+    "files.associations": {
+        "*.sty": "latex-expl3",
+        "*.def": "latex-expl3",
+        "*.tex": "latex",
+        "*.cls": "latex-expl3",
+        "cmath": "cpp"
+    }
 }
