@@ -1,0 +1,3 @@
+<launch>
+    <node name="node10" pkg="a02_scout_car_task_1" type="distance_measurement" output="screen"/>
+</launch>

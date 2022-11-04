@@ -31,12 +31,12 @@ void imgcb(const sensor_msgs::Image::ConstPtr &msg)
         // get global max depth value
         double max = 0.0;
         cv::minMaxLoc(cv_ptr->image, 0, &max, 0, 0);
-        std::cout << "Max value: " << max << endl;
+        // std::cout << "Max value: " << max << endl;
 
         // get global min depth value
         double min = 0.0;
         cv::minMaxLoc(cv_ptr->image, &min, &max, 0, 0);
-        std::cout << "Min value: " << min << endl;
+        // std::cout << "Min value: " << min << endl;
 
         // get depth value at a point
         float distanceVal = cv_ptr->image.at<float>(100, 100);
