@@ -38,9 +38,6 @@ target_link_libraries(imu_subscriber ${catkin_LIBRARIES})
 add_executable(image_viewer src/image_viewer.cpp)
 target_link_libraries(image_viewer ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
 
-add_executable(gen_pic_topic src/gen_pic_topic.cpp)
-target_link_libraries(gen_pic_topic ${catkin_LIBRARIES} ${OpenCV_LIBRARIES})
-
 add_executable(pcl_viewer src/pcl_viewer.cpp)
 target_link_libraries(pcl_viewer ${catkin_LIBRARIES} ${PCL_LIBRARIES})
 
