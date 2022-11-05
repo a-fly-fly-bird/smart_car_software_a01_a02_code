@@ -1,0 +1,9 @@
+<launch>
+
+ 
+  <node pkg="test1" type="projection" name="pro"/>
+
+  <node pkg="rht_show" type="image_show" name="show_image" output="screen"/>
+  
+
+</launch>
