@@ -12,6 +12,7 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl_ros/point_cloud.h>
+#include <pcl/filters/passthrough.h>     //直通滤波
 
 using namespace std;
 
@@ -20,7 +21,7 @@ ros::Publisher image_pub;
 void projection(const sensor_msgs::PointCloud2::ConstPtr& input_cloud,const sensor_msgs::ImageConstPtr& input_image);
 cv::Mat extrinsic_mat, camera_mat,dist_coeff; //外参矩阵，内参矩阵，畸变矩阵
 cv::Mat rotate_mat,transform_vec; //旋转矩阵，平移向量
-cv::FileStorage fs_read("/home/liujun/calibration_test/c2v", cv::FileStorage::READ); //打开标定结果文件
+cv::FileStorage fs_read("/home/liujun/calibration/result.YM/result2", cv::FileStorage::READ); //打开标定结果文件
 int main(int argc,char** argv){
     	    // 下列代码段从标定结果文件中读取外参矩阵、内参矩阵、畸变矩阵，
 	    // 其中外参矩阵中：前三行前三列是旋转矩阵、第四列是平移向量
@@ -92,13 +93,21 @@ void projection( const sensor_msgs::PointCloud2::ConstPtr& input_cloud,const sen
                 return;
             }
             cv::Mat raw_img = cv_ptr->image;
-            pcl::PointCloud<pcl::PointXYZI>::Ptr ccloud(new pcl::PointCloud<pcl::PointXYZI>);//点云格式转换
-            pcl::fromROSMsg(*input_cloud, *ccloud);
-            
-            cv::Mat img = raw_img.clone();
-           // cv::Mat img = visImg.clone();
-            //std::cout<<"get pc and image data"<<std::endl;
+	    cv::Mat img = raw_img.clone();
 
+            pcl::PointCloud<pcl::PointXYZI>::Ptr ccloud(new pcl::PointCloud<pcl::PointXYZI>);//点云格式转换
+	    pcl::PointCloud<pcl::PointXYZI>::Ptr xcloud(new pcl::PointCloud<pcl::PointXYZI>);
+            pcl::fromROSMsg(*input_cloud, *xcloud);
+	    pcl::PassThrough<pcl::PointXYZI> pt;	// 创建直通滤波器对象
+	    pt.setInputCloud(xcloud);			//设置输入点云，这里设置的是一个指针
+	    pt.setFilterFieldName("x");			//设置滤波所需字段x
+	    pt.setFilterLimits(0.0, 10.0);		//设置x字段过滤范围
+	    pt.setFilterLimitsNegative(false);	//默认false，保留范围内的点云；true，保存范围外的点云
+	    //pt.setKeepOrganized(true);		//是否保持点云的组织结构（针对结构点云）
+	    pt.filter(*ccloud);        //设置滤波输出的位置，这里设置的不是一个指针
+            
+            
+          
     vector<cv::Point3f> points3d; //存储点云点的vcector，必须存储成cv::Point3f格式
     points3d.reserve(ccloud->size()+1); //先给points3d分配足够大的内存空间，避免push_back时频繁复制转移
 //---------测试
