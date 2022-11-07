@@ -25,9 +25,13 @@ include_directories(
 )
 
 add_executable(gray src/gray.cpp)
-
 target_link_libraries(gray ${OpenCV_LIBS})
 
 add_executable(ros_gray src/ros_gray.cpp)
-
 target_link_libraries(ros_gray ${catkin_LIBRARIES} ${OpenCV_LIBS})
+
+add_executable(blur src/blur.cpp)
+target_link_libraries(blur ${OpenCV_LIBS})
+
+add_executable(ros_blur src/ros_blur.cpp)
+target_link_libraries(ros_blur ${catkin_LIBRARIES} ${OpenCV_LIBS})
