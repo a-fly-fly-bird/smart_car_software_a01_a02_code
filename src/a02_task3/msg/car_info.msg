@@ -1,0 +1,7 @@
+std_msgs/Header header
+int64 front_light_state
+float64 battery_voltage
+float64 linear_velocity
+float64 angular_velocity
+float64 left_odometry
+float64 right_odometry
