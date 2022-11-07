@@ -56,6 +56,7 @@ public:
         cv::imshow("output", gray);
         
         // Output modified video stream
+        // 注意灰度图的编码格式是 sensor_msgs::image_encodings::MONO8， 不是原来图片的 BGR8 了！！！
         sensor_msgs::ImagePtr ros_gray = cv_bridge::CvImage(std_msgs::Header(), sensor_msgs::image_encodings::MONO8, gray).toImageMsg();
         image_pub_.publish(ros_gray);
 
