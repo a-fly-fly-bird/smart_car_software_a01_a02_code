@@ -6,8 +6,7 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/highgui/highgui.hpp>
-
-static const std::string OPENCV_WINDOW = "Image window";
+#include <opencv2/features2d/features2d.hpp>
 
 class ImageConverter
 {
@@ -24,7 +23,7 @@ public:
         image_sub_ = it_.subscribe("/camera/color/image_raw", 1,
                                    &ImageConverter::imageCb, this);
         image_pub_ = it_.advertise("/image_converter/output_video_gray", 1);
-        
+
         cv::namedWindow("input", 0);
         cv::namedWindow("output", 0);
     }
@@ -48,16 +47,19 @@ public:
             return;
         }
         cv::Mat &input = cv_ptr->image;
-        cv::Mat blur;
+        cv::Mat output;
 
-        cv::blur(input, blur, cv::Size(10, 10));
+        cv::Ptr<cv::FastFeatureDetector> detector = cv::FastFeatureDetector::create(60);
+        std::vector<cv::KeyPoint> keypoints;
+        detector->detect(input, keypoints);
+        cv::drawKeypoints(input, keypoints, output);
 
         cv::imshow("input", input);
-        cv::imshow("output", blur);
-        
+        cv::imshow("output", output);
+
         // Output modified video stream
         // 注意灰度图的编码格式是 sensor_msgs::image_encodings::MONO8， 不是原来图片的 BGR8 了！！！
-        sensor_msgs::ImagePtr ros_gray = cv_bridge::CvImage(std_msgs::Header(), sensor_msgs::image_encodings::BGR8, blur).toImageMsg();
+        sensor_msgs::ImagePtr ros_gray = cv_bridge::CvImage(std_msgs::Header(), sensor_msgs::image_encodings::BGR8, output).toImageMsg();
         image_pub_.publish(ros_gray);
 
         cv::waitKey(40);
