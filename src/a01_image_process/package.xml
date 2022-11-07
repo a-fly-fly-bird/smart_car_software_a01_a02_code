@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>a01_image_process</name>
+  <version>0.0.0</version>
+  <description>The a01_image_process package</description>
+
+  <maintainer email="ty@todo.todo">ty</maintainer>
+
+  <license>TODO</license>
+
+  <!--   <doc_depend>doxygen</doc_depend> -->
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>image_transport</build_depend>
+  <build_depend>cv_bridge</build_depend>
+
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>rospy</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
+
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>rospy</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>image_transport</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
+
+  <export>
+
+  </export>
+</package>
