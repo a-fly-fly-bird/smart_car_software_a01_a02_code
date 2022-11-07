@@ -60,7 +60,7 @@ public:
         sensor_msgs::ImagePtr ros_gray = cv_bridge::CvImage(std_msgs::Header(), sensor_msgs::image_encodings::MONO8, gray).toImageMsg();
         image_pub_.publish(ros_gray);
 
-        cv::waitKey(5);
+        cv::waitKey(40);
     }
 };
 
